@@ -9,8 +9,12 @@
 (scroll-bar-mode -1)
 
 (set-default-font "-misc-fixed-medium-r-normal--13-*-*-*-c-70-iso8859-1")
+
+;; A special title is needed so that we can fetch the window ID which
+;; is needed by xdotool.
+
 (setq frame-title-format "ANYTHING-LAUNCHER")
-(sleep-for 1)
+
 (setq server-name "anything-launcher")
 (server-start)
 
