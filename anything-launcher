@@ -1,0 +1,22 @@
+#!/bin/bash
+
+STARTEDFILE=~/.anything-launcher-started
+IDFILE=~/.anything-launcher-id
+
+if [ -f $IDFILE ] && xdotool windowmap $(cat $IDFILE); then
+    emacsclient -e "(anything-launcher)" -s anything-launcher
+    xdotool windowunmap $(cat $IDFILE)
+else
+    rm -f $STARTEDFILE
+    rm -f $IDFILE
+    emacs -Q -l ~/doc/src/el/anything-load-launcher.el &
+    until [ -f $STARTEDFILE ]; do
+        sleep 0.1
+    done
+    emacsclient -e "(anything-launcher)" -s anything-launcher
+    echo title search...
+    sleep 1
+    xdotool search -title ANYTHING-LAUNCHER | head -1 > $IDFILE
+    echo id = $(cat $IDFILE), unmapping...
+    xdotool windowunmap $(cat $IDFILE)
+fi
