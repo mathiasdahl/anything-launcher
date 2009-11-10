@@ -18,14 +18,14 @@
 # Boston, MA 02110-1301, USA.
 
 STARTEDFILE=~/.anything-launcher-started
-IDFILE=~/.anything-launcher-id
 
-if [ -f $IDFILE ] && xdotool windowmap $(cat $IDFILE); then
+ID=$(xdotool search -title ANYTHING-LAUNCHER | head -1)
+
+if xdotool windowmap $ID; then
     emacsclient -e "(anything-launcher)" -s anything-launcher
-    xdotool windowunmap $(cat $IDFILE)
+    xdotool windowunmap $ID
 else
     rm -f $STARTEDFILE
-    rm -f $IDFILE
     emacs -Q -l ~/doc/src/el/anything-load-launcher.el &
     until [ -f $STARTEDFILE ]; do
         sleep 0.1
@@ -33,7 +33,7 @@ else
     emacsclient -e "(anything-launcher)" -s anything-launcher
     echo title search...
     sleep 1
-    xdotool search -title ANYTHING-LAUNCHER | head -1 > $IDFILE
-    echo id = $(cat $IDFILE), unmapping...
-    xdotool windowunmap $(cat $IDFILE)
+    ID=$(xdotool search -title ANYTHING-LAUNCHER | head -1)
+    echo id = $ID, unmapping...
+    xdotool windowunmap $ID
 fi
