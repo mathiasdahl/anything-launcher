@@ -38,6 +38,7 @@
 ;; is needed by xdotool.
 
 (setq frame-title-format "ANYTHING-LAUNCHER")
+(setq icon-title-format "ANYTHING-LAUNCHER")
 
 (setq server-name "anything-launcher")
 
